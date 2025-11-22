@@ -6,6 +6,7 @@ import "../index.css";
 const Login = () => {
   const navigate = useNavigate();
   const { user, signIn } = useAuth();
+  const [password, setPassword] = useState("")
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -45,6 +46,14 @@ const Login = () => {
 
     try {
       // Validate inputs
+      let word = formData.password[0]
+      let capitalWord = password.toUpperCase
+      
+      if ((word === capitalWord) || (formData.password.length >= 6)){
+          navigate('/feed')
+      }
+      
+
       if (!formData.email || !formData.password) {
         setError("Please enter both email and password");
         setLoading(false);
