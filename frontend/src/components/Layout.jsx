@@ -1,10 +1,11 @@
 import React from 'react';
-import Header from './Header';
 
+// Layout used by individual pages. Header is provided by the higher-level
+// MainLayout (so we avoid rendering the header twice). This component
+// therefore only renders the page's main content wrapper.
 const Layout = ({ children }) => {
   return (
     <div className="app-layout">
-      <Header />
       <main className="main-content">
         {children}
       </main>

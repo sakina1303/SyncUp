@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "./MockAuthContext";
+import { useAuth } from "../context/AuthContext";
+
 import "../index.css";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { user, signIn } = useAuth();
-  const [password, setPassword] = useState("")
+  const { user, login, loading, error, setError } = useAuth();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    return () => {
+      setError("");
+    };
+  }, [setError]);
 
-  // Redirect to feed if already logged in
   useEffect(() => {
     if (user) {
       navigate("/feed");
     }
   }, [user, navigate]);
-  
-  // Mock user for demo purposes
+
   useEffect(() => {
-    // Auto-fill demo credentials
     setFormData({
       email: "demo@example.com",
       password: "password123"
@@ -41,42 +42,18 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
 
     try {
-      // Validate inputs
-      let word = formData.password[0]
-      let capitalWord = password.toUpperCase
-      
-      if ((word === capitalWord) || (formData.password.length >= 6)){
-          navigate('/feed')
-      }
-      
-
       if (!formData.email || !formData.password) {
         setError("Please enter both email and password");
-        setLoading(false);
         return;
       }
 
-      // Call the signIn function from MockAuthContext
-      const { user: loggedInUser, error: signInError } = await signIn(formData.email, formData.password);
-
-      if (signInError) {
-        setError(signInError.message || "Failed to sign in");
-        return;
-      }
-
-      if (loggedInUser) {
-        console.log("Login successful:", loggedInUser);
-        navigate("/feed");
-      }
+      await login(formData.email, formData.password);
     } catch (err) {
       console.error("Login error:", err);
       setError("An unexpected error occurred. Please try again.");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -88,14 +65,15 @@ const Login = () => {
           <p className="auth-subtitle">Sign in to your account to continue</p>
         </div>
 
-        {/* Demo Credentials Info */}
-        <div style={{
-          background: 'rgba(99, 102, 241, 0.1)',
-          border: '1px solid rgba(99, 102, 241, 0.3)',
-          borderRadius: '8px',
-          padding: '12px 16px',
-          marginBottom: '20px'
-        }}>
+        <div
+          style={{
+            background: 'rgba(99, 102, 241, 0.1)',
+            border: '1px solid rgba(99, 102, 241, 0.3)',
+            borderRadius: '8px',
+            padding: '12px 16px',
+            marginBottom: '20px'
+          }}
+        >
           <p style={{ fontSize: '13px', color: '#a5b4fc', marginBottom: '6px', fontWeight: '500' }}>
             🎯 Demo Credentials (Pre-filled)
           </p>
@@ -108,12 +86,22 @@ const Login = () => {
         </div>
 
         <form className="auth-form" onSubmit={handleSubmit}>
-          {error && <p className="error-message" style={{ gridColumn: '1 / -1', color: '#ff6b6b', fontSize: '14px', marginBottom: '10px' }}>{error}</p>}
-          
+          {error && (
+            <p
+              className="error-message"
+              style={{
+                gridColumn: '1 / -1',
+                color: '#ff6b6b',
+                fontSize: '14px',
+                marginBottom: '10px'
+              }}
+            >
+              {error}
+            </p>
+          )}
+
           <div className="form-group">
-            <label htmlFor="email" className="form-label">
-              Email address
-            </label>
+            <label htmlFor="email" className="form-label">Email address</label>
             <input
               id="email"
               name="email"
@@ -127,10 +115,8 @@ const Login = () => {
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="password" className="form-label">
-              Password
-            </label>
+          <div className="form-group" style={{ gridColumn: "1 / -1" }}>
+            <label htmlFor="password" className="form-label">Password</label>
             <input
               id="password"
               name="password"
@@ -144,10 +130,9 @@ const Login = () => {
             />
           </div>
 
-            <div className="forgot-password">
-              <Link to="/forgot-password">Forgot password?</Link>
-            </div>
-      
+          <div className="forgot-password">
+            <Link to="/forgot-password">Forgot password?</Link>
+          </div>
 
           <button type="submit" className="auth-button" disabled={loading}>
             {loading ? "Signing in..." : "Sign in"}

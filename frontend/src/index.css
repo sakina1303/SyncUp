@@ -426,7 +426,9 @@ code {
   margin-top: 16px;
   grid-column: 1 / -1;
   justify-self: center;
-  width: 220px;
+  /* make button responsive: don't fix width on narrow screens */
+  width: auto;
+  max-width: 90%;
   letter-spacing: 0.025em;
   box-shadow: 0 4px 14px 0 rgba(58, 141, 255, 0.4), 0 1px 3px 0 rgba(0, 0, 0, 0.2);
 }
@@ -438,6 +440,31 @@ code {
 .auth-button:active {
   transform: translateY(0px);
   box-shadow: 0 2px 10px 0 rgba(58, 141, 255, 0.3), 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive adjustments for auth form (signup/login) */
+@media (max-width: 768px) {
+  .auth-card {
+    padding: 24px;
+    max-width: 420px;
+    margin: 0 16px;
+  }
+
+  .auth-form {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .form-group[style] {
+    /* inline gridColumn style on Full Name field should span the single column */
+    grid-column: auto !important;
+  }
+
+  .auth-button {
+    width: 100%;
+    justify-self: stretch;
+    padding: 12px 20px;
+  }
 }
 
 .auth-link { text-align: center; margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(58, 141, 255, 0.2); grid-column: 1 / -1; }
@@ -471,7 +498,7 @@ code {
 }
 
 .profile-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -921,23 +948,23 @@ body.dark-mode .layout {
   background: #0f0f1e;
 }
 
-/* HEADER */
-.header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px) saturate(180%); border-bottom: 1px solid rgba(0, 0, 0, 0.1); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); position: sticky; top: 0; z-index: 1000; transition: background 0.3s ease, border-color 0.3s ease; }
+/* HEADER - make non-floating (part of normal flow) */
+.header { background: rgba(255, 255, 255, 0.98); backdrop-filter: none; border-bottom: 1px solid rgba(0, 0, 0, 0.06); box-shadow: none; position: static; width: 100%; z-index: 10; transition: background 0.2s ease, border-color 0.2s ease; }
 
 body.dark-mode .header {
-  background: rgba(15, 15, 30, 0.8);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  background: rgba(15, 15, 30, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
 }
-.header-container { max-width: 1400px; margin: 0 auto; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 70px; }
+.header-container { width: 100%; box-sizing: border-box; padding: 0; display: flex; align-items: center; justify-content: space-between; height: 72px; }
 .header-brand { flex-shrink: 0; }
 .brand-link { text-decoration: none; color: #1f2937; display: flex; align-items: center; gap: 12px; transition: transform 0.3s ease; }
 .brand-link:hover { transform: scale(1.02); }
-.brand-logo { display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); border-radius: 10px; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
+.brand-logo { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); border-radius: 12px; transition: all 0.25s ease; box-shadow: 0 6px 18px rgba(99, 102, 241, 0.18); margin-left: 0; }
 .brand-link:hover .brand-logo { transform: translateY(-2px) rotate(5deg); box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4); }
 .brand-logo svg { color: white; }
 .brand-text { display: flex; flex-direction: column; gap: 2px; }
-.brand-title { margin: 0; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.brand-title { margin: 0; font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-left: 10px; }
 .brand-subtitle { font-size: 0.75rem; color: #6b7280; font-weight: 500; letter-spacing: 0.5px; }
 
 body.dark-mode .brand-link {
@@ -948,10 +975,10 @@ body.dark-mode .brand-subtitle {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.header-center { flex: 1; max-width: 500px; margin: 0 24px; }
-.header-search { position: relative; width: 100%; }
-.search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #9ca3af; font-size: 18px; pointer-events: none; transition: color 0.3s ease; }
-.search-input { width: 100%; padding: 10px 16px 10px 44px; background: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 12px; color: #1f2937; font-size: 14px; outline: none; transition: all 0.3s ease; }
+.header-center { flex: 1; margin: 0 1rem; display: flex; align-items: center; padding-left: 16px; padding-right: 16px; }
+.header-search { position: relative; width: 100%; display: flex; }
+.search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #9ca3af; font-size: 16px; pointer-events: none; transition: color 0.2s ease; }
+.search-input { width: 100%; padding: 8px 14px 8px 40px; background: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 12px; color: #1f2937; font-size: 14px; outline: none; transition: all 0.2s ease; max-width: none; }
 .search-input::placeholder { color: #9ca3af; }
 .search-input:focus { background: #ffffff; border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); }
 
@@ -1013,12 +1040,12 @@ body.dark-mode .header-auth .dark-mode-toggle::before {
   left: 43px;
 }
 
-.auth-link { text-decoration: none; padding: 10px 20px; border-radius: 10px; font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease; display: flex; align-items: center; gap: 6px; }
-.login-link { color: white; border: 2px solid rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.1); }
-.login-link:hover { background: rgba(255, 255, 255, 0.2); border-color: rgba(255, 255, 255, 0.5); transform: translateY(-2px); }
-.signup-link { background: white; color: #667eea; border: 2px solid white; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
-.signup-link:hover { background: #f8f9fa; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); }
-.signup-link svg { transition: transform 0.3s ease; }
+.auth-link { text-decoration: none; padding: 8px 14px; border-radius: 10px; font-weight: 600; font-size: 0.9rem; transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.login-link { color: white; border: 2px solid rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.08); }
+.login-link:hover { background: rgba(255, 255, 255, 0.16); border-color: rgba(255, 255, 255, 0.35); transform: translateY(-1px); }
+.signup-link { background: white; color: #667eea; border: 1px solid rgba(0,0,0,0.04); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08); padding: 8px 12px; }
+.signup-link:hover { background: #f8f9fa; transform: translateY(-1px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10); }
+.signup-link svg { transition: transform 0.2s ease; }
 .signup-link:hover svg { transform: translateX(3px); }
 
 .mobile-menu-toggle { display: none; flex-direction: column; background: #f3f4f6; border: 1px solid #e5e7eb; cursor: pointer; padding: 8px; gap: 5px; border-radius: 8px; transition: all 0.3s ease; }
@@ -1179,7 +1206,7 @@ body.dark-mode .club-name {
 }
 
 .clubs-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -2129,7 +2156,7 @@ body.dark-mode .announcement-date {
 }
 
 .events-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -2545,4 +2572,25 @@ body.dark-mode .events-empty {
   .events-title { font-size: 1.75rem; }
   .events-subtitle { font-size: 0.9rem; }
   .events-filter-btn { padding: 6px 16px; font-size: 0.85rem; }
+}
+
+/* --- Main Layout Styles --- */
+.content-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* --- Responsive for Layout --- */
+@media (max-width: 768px) {
+  .content-container {
+    padding: 1rem;
+  }
+
+  /* header padding match mobile content padding */
+  .header-container { padding: 0; }
+
+  /* allow the search to shrink on mobile */
+  .header-center { margin: 0; padding-left: 12px; padding-right: 12px; }
+  .search-input { padding: 8px 12px 8px 38px; font-size: 13px; }
 }

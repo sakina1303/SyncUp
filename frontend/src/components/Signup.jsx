@@ -8,8 +8,7 @@ const Signup = () => {
   const { user } = useAuth();
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -104,30 +103,16 @@ const Signup = () => {
           {error && <p className="error-message">{error}</p>}
           {message && <p className="success-message">{message}</p>}
 
-          <div className="form-group">
-            <label htmlFor="firstName" className="form-label">First Name</label>
+          <div className="form-group" style={{ gridColumn: "1 / -1" }}>
+            <label htmlFor="name" className="form-label">Full Name</label>
             <input
-              id="firstName"
-              name="firstName"
+              id="name"
+              name="name"
               type="text"
               required
               className="form-input"
-              placeholder="First name"
-              value={formData.firstName}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="lastName" className="form-label">Last Name</label>
-            <input
-              id="lastName"
-              name="lastName"
-              type="text"
-              required
-              className="form-input"
-              placeholder="Last name"
-              value={formData.lastName}
+              placeholder="Enter your full name"
+              value={formData.name}
               onChange={handleChange}
             />
           </div>
@@ -156,7 +141,7 @@ const Signup = () => {
               autoComplete="new-password"
               required
               className="form-input"
-              placeholder="Create a password"
+              placeholder="Create a password (min. 6 characters)"
               value={formData.password}
               onChange={handleChange}
             />
@@ -177,7 +162,9 @@ const Signup = () => {
             />
           </div>
 
-          <button type="submit" className="auth-button">Create Account</button>
+          <button type="submit" className="auth-button" disabled={loading}>
+            {loading ? "Creating..." : "Create Account"}
+          </button>
 
           <div className="auth-link">
             <p className="auth-link-text">
