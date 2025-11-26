@@ -15,6 +15,7 @@ datasource db {
 }
 
 
+
 model User {
   user_id        Int       @id @default(autoincrement())
   name           String
