@@ -49,10 +49,6 @@ const Feed = () => {
         const response = await axios.get(`${API_BASE_URL}/api/posts`);
         setPosts(response.data || []);
       } catch (err) {
-        console.error(
-          "Failed to load posts:",
-          err.response?.data?.error || err.message
-        );
         setFeedError(
           err.response?.data?.error || "Failed to load posts. Please try again."
         );
@@ -114,7 +110,6 @@ const Feed = () => {
         [postId]: response.data.liked,
       }));
     } catch (error) {
-      console.error("Error liking post:", error);
       setFeedError("Failed to like post");
     }
   };
@@ -132,7 +127,7 @@ const Feed = () => {
           [postId]: response.data.comments,
         }));
       } catch (error) {
-        console.error("Error fetching comments:", error);
+        // Silent fail for comment loading
       }
     }
 
@@ -175,7 +170,6 @@ const Feed = () => {
       // Clear input
       setCommentText((prev) => ({ ...prev, [postId]: "" }));
     } catch (error) {
-      console.error("Error posting comment:", error);
       setFeedError("Failed to post comment");
     }
   };
@@ -340,7 +334,6 @@ const Feed = () => {
                       >
                         💬 Comment
                       </button>
-                      
                     </div>
 
                     {/* Comments Section */}

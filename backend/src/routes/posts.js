@@ -3,7 +3,6 @@ import prisma from "../config/db.js";
 import authMiddleware from "../middleware/auth.js";
 const router = express.Router();
 
-
 router.get("/", async (req, res) => {
   try {
     const posts = await prisma.post.findMany({
@@ -42,7 +41,6 @@ router.get("/", async (req, res) => {
 
     res.status(200).json(post_with_cnt);
   } catch (err) {
-    console.error(err);
     res.status(500).json({ error: "server error" });
   }
 });
@@ -78,11 +76,9 @@ router.post("/", authMiddleware, async (req, res) => {
     });
     res.status(201).json(post);
   } catch (err) {
-    console.error(err);
     res.status(500).json({ error: "server error" });
   }
 });
-
 
 router.post("/:postId/like", authMiddleware, async (req, res) => {
   try {
@@ -147,7 +143,6 @@ router.post("/:postId/like", authMiddleware, async (req, res) => {
       });
     }
   } catch (err) {
-    console.error("Error toggling like:", err);
     res.status(500).json({ error: "server error" });
   }
 });
@@ -175,7 +170,6 @@ router.get("/:postId/comments", async (req, res) => {
 
     res.json({ comments });
   } catch (err) {
-    console.error("Error fetching comments:", err);
     res.status(500).json({ error: "server error" });
   }
 });
@@ -227,7 +221,6 @@ router.post("/:postId/comments", authMiddleware, async (req, res) => {
       comments_count: commentsCount,
     });
   } catch (err) {
-    console.error("Error creating comment:", err);
     res.status(500).json({ error: "server error" });
   }
 });
@@ -258,7 +251,6 @@ router.delete("/comments/:commentId", authMiddleware, async (req, res) => {
 
     res.json({ message: "Comment deleted successfully" });
   } catch (err) {
-    console.error("Error deleting comment:", err);
     res.status(500).json({ error: "server error" });
   }
 });

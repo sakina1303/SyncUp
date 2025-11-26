@@ -20,7 +20,7 @@ const Clubs = () => {
         const response = await axios.get(`${API_BASE_URL}/api/clubs`);
         setClubs(response.data.clubs);
       } catch (error) {
-        console.error("Error fetching clubs:", error);
+        // Silent fail for clubs loading
       } finally {
         setLoading(false);
       }

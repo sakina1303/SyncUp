@@ -26,12 +26,15 @@ const Profile = () => {
         setLoading(true);
         setProfileError("");
         const response = await axios.get(`${API_BASE_URL}/api/posts`);
-        const userPosts = (response.data || []).filter(post => post.user_id === authUser.user_id);
+        const userPosts = (response.data || []).filter(
+          (post) => post.user_id === authUser.user_id
+        );
         setPosts(userPosts);
         setClubs([]);
       } catch (err) {
-        console.error("Failed to load profile data:", err.response?.data?.error || err.message);
-        setProfileError(err.response?.data?.error || "Failed to load your profile data.");
+        setProfileError(
+          err.response?.data?.error || "Failed to load your profile data."
+        );
       } finally {
         setLoading(false);
       }
@@ -41,10 +44,14 @@ const Profile = () => {
   }, [authUser?.user_id, API_BASE_URL]);
 
   const user = {
-    name: authUser?.name || authUser?.email?.split('@')[0] || "User",
+    name: authUser?.name || authUser?.email?.split("@")[0] || "User",
     title: "Student",
     bio: authUser?.bio || "Welcome to my profile!",
-    avatar: authUser?.profile_pic_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(authUser?.name || authUser?.email || 'User')}&background=6366f1&color=fff&size=150`
+    avatar:
+      authUser?.profile_pic_url ||
+      `https://ui-avatars.com/api/?name=${encodeURIComponent(
+        authUser?.name || authUser?.email || "User"
+      )}&background=6366f1&color=fff&size=150`,
   };
 
   if (loading) {
@@ -62,7 +69,7 @@ const Profile = () => {
     const now = new Date();
     const diffInHours = Math.floor((now - date) / (1000 * 60 * 60));
 
-    if (diffInHours < 1) return 'Just now';
+    if (diffInHours < 1) return "Just now";
     if (diffInHours < 24) return `${diffInHours}h ago`;
     return date.toLocaleDateString();
   };
@@ -81,15 +88,9 @@ const Profile = () => {
                   className="profile-avatar-img"
                 />
                 <div className="profile-header-text">
-                  <h1 className="profile-name-text">
-                    {user.name}
-                  </h1>
-                  <p className="profile-title-text">
-                    {user.title}
-                  </p>
-                  <p className="profile-bio-text">
-                    {user.bio}
-                  </p>
+                  <h1 className="profile-name-text">{user.name}</h1>
+                  <p className="profile-title-text">{user.title}</p>
+                  <p className="profile-bio-text">{user.bio}</p>
                 </div>
                 <button
                   onClick={() => navigate("/profile/edit")}
@@ -101,112 +102,113 @@ const Profile = () => {
             </div>
           </div>
 
-        {/* Tabs */}
-        <div className="profile-tabs-card">
-          <div className="profile-tabs-header">
-            <button
-              onClick={() => setActiveTab('clubs')}
-              className={`profile-tab-button ${activeTab === 'clubs' ? 'active' : ''}`}
-            >
-              My Clubs
-            </button>
-            <button
-              onClick={() => setActiveTab('posts')}
-              className={`profile-tab-button ${activeTab === 'posts' ? 'active' : ''}`}
-            >
-              My Posts
-            </button>
-          </div>
+          {/* Tabs */}
+          <div className="profile-tabs-card">
+            <div className="profile-tabs-header">
+              <button
+                onClick={() => setActiveTab("clubs")}
+                className={`profile-tab-button ${
+                  activeTab === "clubs" ? "active" : ""
+                }`}
+              >
+                My Clubs
+              </button>
+              <button
+                onClick={() => setActiveTab("posts")}
+                className={`profile-tab-button ${
+                  activeTab === "posts" ? "active" : ""
+                }`}
+              >
+                My Posts
+              </button>
+            </div>
 
-          {/* Tab Content */}
-          <div className="profile-tab-content">
-            {profileError && (
-              <p className="profile-error-message">{profileError}</p>
-            )}
-            {activeTab === 'clubs' && (
-              <div className="profile-clubs-grid">
-                {clubs.length > 0 ? (
-                  clubs.map((club) => (
-                    <div
-                      key={club.id}
-                      className="profile-club-card"
-                      onClick={() => navigate(`/clubs/${club.id}`)}
-                    >
-                      <img
-                        src={club.logo_url}
-                        alt={club.name}
-                        className="profile-club-logo"
-                      />
-                      <div className="profile-club-info">
-                        <h3 className="profile-club-name">
-                          {club.name}
-                        </h3>
-                        <p className="profile-club-description">
-                          {club.description}
-                        </p>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            navigate(`/clubs/${club.id}`);
-                          }}
-                          className="profile-club-view-btn"
-                        >
-                          View Club →
-                        </button>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="profile-empty-message">
-                    You haven't joined any clubs yet.
-                  </p>
-                )}
-              </div>
-            )}
-
-            {activeTab === 'posts' && (
-              <div className="profile-posts-list">
-                {posts.length > 0 ? (
-                  posts.map((post) => (
-                    <div
-                      key={post.post_id}
-                      className="profile-post-card"
-                    >
-                      <div className="profile-post-header">
+            {/* Tab Content */}
+            <div className="profile-tab-content">
+              {profileError && (
+                <p className="profile-error-message">{profileError}</p>
+              )}
+              {activeTab === "clubs" && (
+                <div className="profile-clubs-grid">
+                  {clubs.length > 0 ? (
+                    clubs.map((club) => (
+                      <div
+                        key={club.id}
+                        className="profile-club-card"
+                        onClick={() => navigate(`/clubs/${club.id}`)}
+                      >
                         <img
-                          src={post.user?.profile_pic_url || user.avatar}
-                          alt={post.user?.name || user.name}
-                          className="profile-post-avatar"
+                          src={club.logo_url}
+                          alt={club.name}
+                          className="profile-club-logo"
                         />
-                        <div className="profile-post-user-info">
-                          <p className="profile-post-user-name">
-                            {post.user?.name || user.name}
+                        <div className="profile-club-info">
+                          <h3 className="profile-club-name">{club.name}</h3>
+                          <p className="profile-club-description">
+                            {club.description}
                           </p>
-                          <p className="profile-post-time">
-                            {formatDate(post.created_at)}
-                          </p>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/clubs/${club.id}`);
+                            }}
+                            className="profile-club-view-btn"
+                          >
+                            View Club →
+                          </button>
                         </div>
                       </div>
-                      <p className="profile-post-content">
-                        {post.content}
-                      </p>
-                      <div className="profile-post-stats">
-                        <span className="profile-post-stat">👍 {post.likes_count ?? 0}</span>
-                        <span className="profile-post-stat">💬 {post.comments_count ?? 0}</span>
+                    ))
+                  ) : (
+                    <p className="profile-empty-message">
+                      You haven't joined any clubs yet.
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {activeTab === "posts" && (
+                <div className="profile-posts-list">
+                  {posts.length > 0 ? (
+                    posts.map((post) => (
+                      <div key={post.post_id} className="profile-post-card">
+                        <div className="profile-post-header">
+                          <img
+                            src={post.user?.profile_pic_url || user.avatar}
+                            alt={post.user?.name || user.name}
+                            className="profile-post-avatar"
+                          />
+                          <div className="profile-post-user-info">
+                            <p className="profile-post-user-name">
+                              {post.user?.name || user.name}
+                            </p>
+                            <p className="profile-post-time">
+                              {formatDate(post.created_at)}
+                            </p>
+                          </div>
+                        </div>
+                        <p className="profile-post-content">{post.content}</p>
+                        <div className="profile-post-stats">
+                          <span className="profile-post-stat">
+                            👍 {post.likes_count ?? 0}
+                          </span>
+                          <span className="profile-post-stat">
+                            💬 {post.comments_count ?? 0}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="profile-empty-message">
-                    You haven't made any posts yet.
-                  </p>
-                )}
-              </div>
-            )}
+                    ))
+                  ) : (
+                    <p className="profile-empty-message">
+                      You haven't made any posts yet.
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
     </Layout>
   );
 };
