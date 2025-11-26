@@ -96,9 +96,9 @@ const Clubs = () => {
               {filteredClubs.length > 0 ? (
                 filteredClubs.map((club) => (
                   <div
-                    key={club.id}
+                    key={club.club_id}
                     className="club-card"
-                    onClick={() => navigate(`/clubs/${club.id}`)}
+                    onClick={() => navigate(`/clubs/${club.club_id}`)}
                   >
                     <div
                       className="club-card-image"
@@ -119,7 +119,7 @@ const Clubs = () => {
                         className="club-join-btn"
                         onClick={(e) => {
                           e.stopPropagation();
-                          navigate(`/clubs/${club.id}`);
+                          navigate(`/clubs/${club.club_id}`);
                         }}
                       >
                         Join
