@@ -11,8 +11,6 @@ const Login = () => {
     email: "",
     password: "",
   });
-  
-  
 
   useEffect(() => {
     return () => {
@@ -26,13 +24,13 @@ const Login = () => {
       navigate("/feed");
     }
   }, [user, navigate]);
-  
+
   // Mock user for demo purposes
   useEffect(() => {
     // Auto-fill demo credentials
     setFormData({
       email: "demo@example.com",
-      password: "password123"
+      password: "password123",
     });
   }, []);
 
@@ -46,8 +44,8 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  // use context's loading/error
-  setError("");
+    // use context's loading/error
+    setError("");
 
     try {
       // Validate inputs
@@ -59,7 +57,6 @@ const Login = () => {
       // Call the login function from AuthContext
       await login(formData.email, formData.password);
     } catch (err) {
-      console.error("Login error:", err);
       setError("An unexpected error occurred. Please try again.");
     } finally {
       // loading is managed by AuthContext
@@ -75,30 +72,52 @@ const Login = () => {
         </div>
 
         {/* Demo Credentials Info */}
-        <div style={{
-          background: 'rgba(99, 102, 241, 0.1)',
-          border: '1px solid rgba(99, 102, 241, 0.3)',
-          borderRadius: '8px',
-          padding: '12px 16px',
-          marginBottom: '20px'
-        }}>
-          <p style={{ fontSize: '13px', color: '#a5b4fc', marginBottom: '6px', fontWeight: '500' }}>
+        <div
+          style={{
+            background: "rgba(99, 102, 241, 0.1)",
+            border: "1px solid rgba(99, 102, 241, 0.3)",
+            borderRadius: "8px",
+            padding: "12px 16px",
+            marginBottom: "20px",
+          }}
+        >
+          <p
+            style={{
+              fontSize: "13px",
+              color: "#a5b4fc",
+              marginBottom: "6px",
+              fontWeight: "500",
+            }}
+          >
             🎯 Demo Credentials (Pre-filled)
           </p>
-          <p style={{ fontSize: '12px', color: '#c7d2fe', marginBottom: '2px' }}>
+          <p
+            style={{ fontSize: "12px", color: "#c7d2fe", marginBottom: "2px" }}
+          >
             <strong>Email:</strong> demo@example.com
           </p>
-          <p style={{ fontSize: '12px', color: '#c7d2fe' }}>
+          <p style={{ fontSize: "12px", color: "#c7d2fe" }}>
             <strong>Password:</strong> password123
           </p>
         </div>
 
         <form className="auth-form" onSubmit={handleSubmit}>
+          {error && (
+            <p
+              className="error-message"
+              style={{
+                gridColumn: "1 / -1",
+                color: "#ff6b6b",
+                fontSize: "14px",
+                marginBottom: "10px",
+              }}
+            >
+              {error}
+            </p>
+          )}
 
-          {error && <p className="error-message" style={{ gridColumn: '1 / -1', color: '#ff6b6b', fontSize: '14px', marginBottom: '10px' }}>{error}</p>}
-          
           <div className="form-group">
-\
+            \
             <label htmlFor="email" className="form-label">
               Email address
             </label>
@@ -132,10 +151,9 @@ const Login = () => {
             />
           </div>
 
-            <div className="forgot-password">
-              <Link to="/forgot-password">Forgot password?</Link>
-            </div>
-      
+          <div className="forgot-password">
+            <Link to="/forgot-password">Forgot password?</Link>
+          </div>
 
           <button type="submit" className="auth-button" disabled={loading}>
             {loading ? "Signing in..." : "Sign in"}

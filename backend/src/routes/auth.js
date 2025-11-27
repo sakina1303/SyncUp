@@ -29,7 +29,6 @@ router.post("/signup", async (req, res) => {
 
     res.status(201).json({ message: "User created successfully", user });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ error: "Internal server error" });
   }
 });
@@ -37,16 +36,7 @@ router.post("/signup", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(`Login route called for email=${email}`);
-    // Ensure we use a real DB; if DATABASE_URL missing, Prisma will throw which surfaces as 500.
-    let user;
-    try {
-      user = await prisma.user.findUnique({ where: { email } });
-      console.log('Prisma returned user:', !!user);
-    } catch (prismaErr) {
-      console.error('Prisma error during findUnique:', prismaErr && prismaErr.message);
-      throw prismaErr;
-    }
+    const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
       return res.status(400).json({ error: "Invalid email or password" });
     }
@@ -56,11 +46,12 @@ router.post("/login", async (req, res) => {
     }
 
     // JWT_SECRET must be set in environment for production; here we use it directly.
-    const token = jwt.sign({ userId: user.user_id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+    const token = jwt.sign({ userId: user.user_id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
 
     res.json({ message: "Login successful", token });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ error: "Internal server error" });
   }
 });
@@ -85,7 +76,6 @@ router.get("/me", authMiddleware, async (req, res) => {
 
     res.json({ user });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ error: "Internal server error" });
   }
 });

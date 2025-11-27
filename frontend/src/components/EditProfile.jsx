@@ -33,41 +33,41 @@ const EditProfile = () => {
       const mockClubs = [
         {
           id: 1,
-          name: 'Coding Club',
-          description: 'A club for coding enthusiasts',
-          icon: '💻'
+          name: "Coding Club",
+          description: "A club for coding enthusiasts",
+          icon: "💻",
         },
         {
           id: 2,
-          name: 'Art Collective',
-          description: 'Express yourself through art',
-          icon: '🎨'
+          name: "Art Collective",
+          description: "Express yourself through art",
+          icon: "🎨",
         },
         {
           id: 3,
-          name: 'Debate Society',
-          description: 'Sharpen your public speaking skills',
-          icon: '🎤'
+          name: "Debate Society",
+          description: "Sharpen your public speaking skills",
+          icon: "🎤",
         },
         {
           id: 4,
-          name: 'Music Club',
-          description: 'For music lovers and musicians',
-          icon: '🎵'
-        }
+          name: "Music Club",
+          description: "For music lovers and musicians",
+          icon: "🎵",
+        },
       ];
-      
+
       setFormData({
-        full_name: user?.name || user?.email?.split('@')[0] || "",
+        full_name: user?.name || user?.email?.split("@")[0] || "",
         bio: user?.bio || "",
         title: "",
         avatar_url: user?.profile_pic_url || "",
       });
       setAvatarPreview(user?.profile_pic_url || "");
-      
+
       // Set mock clubs
       setAllClubs(mockClubs);
-      
+
       // Set mock selected clubs (user is member of first 2 clubs)
       setSelectedClubs([1, 2]);
     }
@@ -120,7 +120,6 @@ const EditProfile = () => {
       };
       reader.readAsDataURL(file);
     } catch (err) {
-      console.error("Error uploading avatar:", err);
       setError("Failed to upload avatar");
       setUploading(false);
     }
@@ -133,22 +132,11 @@ const EditProfile = () => {
     setMessage("");
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      // In a real app, this would update the backend
-      console.log("Profile update data:", {
-        full_name: formData.full_name,
-        bio: formData.bio,
-        title: formData.title,
-        avatar_url: formData.avatar_url,
-        selectedClubs: selectedClubs
-      });
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       setMessage("Profile updated successfully!");
       setTimeout(() => navigate("/profile"), 2000);
     } catch (err) {
-      console.error("Error updating profile:", err);
       setError("Failed to update profile. Please try again.");
     } finally {
       setLoading(false);
@@ -161,10 +149,7 @@ const EditProfile = () => {
         <div className="profile-container">
           <div className="edit-profile-header">
             <h1 className="profile-name">Edit Profile</h1>
-            <button
-              onClick={() => navigate("/profile")}
-              className="cancel-btn"
-            >
+            <button onClick={() => navigate("/profile")} className="cancel-btn">
               Cancel
             </button>
           </div>
@@ -201,9 +186,7 @@ const EditProfile = () => {
                     disabled={uploading}
                     style={{ display: "none" }}
                   />
-                  <p className="upload-hint">
-                    JPG, PNG or GIF. Max size 2MB.
-                  </p>
+                  <p className="upload-hint">JPG, PNG or GIF. Max size 2MB.</p>
                 </div>
               </div>
             </div>
@@ -211,7 +194,7 @@ const EditProfile = () => {
             {/* Basic Info Section */}
             <div className="form-section">
               <h3 className="section-title">Basic Information</h3>
-              
+
               <div className="form-group">
                 <label htmlFor="full_name" className="form-label">
                   Full Name

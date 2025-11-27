@@ -56,7 +56,6 @@ export const AuthProvider = ({ children }) => {
       setUser(response.data.user);
     } catch (err) {
       const message = err.response?.data?.error || err.message;
-      console.error("Fetch current user error:", message);
       if (err.response?.status === 401) {
         clearSession(true);
       }
@@ -81,14 +80,14 @@ export const AuthProvider = ({ children }) => {
       navigate("/feed");
       return true;
     } catch (err) {
-      const message = err.response?.data?.error || "Login failed. Please try again.";
-      console.error("Login error:", message);
+      const message =
+        err.response?.data?.error || "Login failed. Please try again.";
       setError(message);
       setLoading(false);
       return false;
     }
   };
-  
+
   const signup = async (name, email, password) => {
     setLoading(true);
     setError("");
@@ -100,8 +99,8 @@ export const AuthProvider = ({ children }) => {
       });
       return true;
     } catch (err) {
-      const message = err.response?.data?.error || "Signup failed. Please try again.";
-      console.error("Signup error:", message);
+      const message =
+        err.response?.data?.error || "Signup failed. Please try again.";
       setError(message);
       return false;
     } finally {

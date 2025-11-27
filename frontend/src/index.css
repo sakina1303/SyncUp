@@ -1,8 +1,8 @@
 /* Dark Mode Toggle Switch */
 .dark-mode-toggle {
   position: relative;
-  width: 100px;
-  height: 40px;
+  width: 60px;
+  height: 30px;
   background: #ddd;
   border-radius: 30px;
   cursor: pointer;
@@ -11,17 +11,17 @@
   justify-content: flex-start; 
   padding: 5px;
   transition: background 0.3s ease-in-out;
-  margin: 0;
+  margin-right: 20px;
   border: none;
   flex-shrink: 0;
 }
 
 .dark-mode-toggle::before {
   content: "🌞";
-  font-size: 25px;
+  font-size: 20px;
   position: absolute;
   top: 50%;
-  left: 5px;
+  left: 0px;
   transform: translateY(-50%);
   width: 30px;
   height: 30px;
@@ -31,7 +31,7 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  transition: left 0.3s ease-in-out, transform 0.3s ease-in-out, content 0.3s ease-in-out;
+  transition: left 0.2s ease-in-out, transform 0.2s ease-in-out, content 0.2s ease-in-out;
 }
 
 body.dark-mode .dark-mode-toggle {
@@ -40,7 +40,8 @@ body.dark-mode .dark-mode-toggle {
 
 body.dark-mode .dark-mode-toggle::before {
   content: "🌙";
-  left: 55px;
+  font-size: 20px;
+  left: 35px;
   transform: translateY(-50%) rotate(360deg);
 }
 
@@ -191,11 +192,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-/* ========================================
-   COMMON UTILITY CLASSES
-   ======================================== */
-
-/* Colors */
 .bg-dark-primary { background: #0f0f1e; }
 .bg-dark-secondary { background: rgba(30, 31, 41, 0.95); }
 .bg-glass { background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(20px); }
@@ -956,7 +952,7 @@ body.dark-mode .header {
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
 }
-.header-container { width: 100%; box-sizing: border-box; padding: 0; display: flex; align-items: center; justify-content: space-between; height: 72px; }
+.header-container { width: 90%; box-sizing: border-box; margin-left: 50px; display: flex; align-items: center; justify-content: space-between; height: 72px; }
 .header-brand { flex-shrink: 0; }
 .brand-link { text-decoration: none; color: #1f2937; display: flex; align-items: center; gap: 12px; transition: transform 0.3s ease; }
 .brand-link:hover { transform: scale(1.02); }
@@ -2593,4 +2589,84 @@ body.dark-mode .events-empty {
   /* allow the search to shrink on mobile */
   .header-center { margin: 0; padding-left: 12px; padding-right: 12px; }
   .search-input { padding: 8px 12px 8px 38px; font-size: 13px; }
+}
+
+.comments-section {
+  border-top: 1px solid var(--border-light);
+  padding-top: 16px;
+  margin-top: 16px;
+}
+
+.comment-input-wrapper {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.comment-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+}
+
+.comment-submit-btn {
+  padding: 8px 16px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.comment-item {
+  display: flex;
+  gap: 12px;
+}
+
+.comment-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.comment-content {
+  flex: 1;
+  background: #f3f4f6;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+}
+
+body.dark-mode .comment-content {
+  background: var(--glass-hover);
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.comment-user-name {
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.comment-time {
+  font-size: 0.75rem;
+  color: var(--text-light);
+}
+
+.comment-text {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
 }
