@@ -1,8 +1,8 @@
 /* Dark Mode Toggle Switch */
 .dark-mode-toggle {
   position: relative;
-  width: 100px;
-  height: 40px;
+  width: 60px;
+  height: 30px;
   background: #ddd;
   border-radius: 30px;
   cursor: pointer;
@@ -11,17 +11,17 @@
   justify-content: flex-start; 
   padding: 5px;
   transition: background 0.3s ease-in-out;
-  margin: 0;
+  margin-right: 20px;
   border: none;
   flex-shrink: 0;
 }
 
 .dark-mode-toggle::before {
   content: "🌞";
-  font-size: 25px;
+  font-size: 20px;
   position: absolute;
   top: 50%;
-  left: 5px;
+  left: 0px;
   transform: translateY(-50%);
   width: 30px;
   height: 30px;
@@ -31,8 +31,9 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  transition: left 0.3s ease-in-out, transform 0.3s ease-in-out, content 0.3s ease-in-out;
+  transition: left 0.2s ease-in-out, transform 0.2s ease-in-out, content 0.2s ease-in-out;
 }
+
 
 body.dark-mode .dark-mode-toggle {
   background: #444;
@@ -40,7 +41,7 @@ body.dark-mode .dark-mode-toggle {
 
 body.dark-mode .dark-mode-toggle::before {
   content: "🌙";
-  left: 55px;
+  left: 30px;
   transform: translateY(-50%) rotate(360deg);
 }
 
